@@ -33,16 +33,30 @@ export function Header() {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [mobileMenuOpen]);
+
   // Determine header styling based on page, scroll position, and dark mode
   const headerClasses = isHomePage
-    ? `sticky top-0 z-50 transition-all duration-300 ${
+    ? `sticky top-0 z-[100] transition-all duration-300 ${
         isScrolled
           ? isDarkMode
             ? "bg-gray-900/95 backdrop-blur-sm border-b border-gray-700"
             : "bg-white/95 backdrop-blur-sm border-b border-gray-100"
           : "bg-transparent"
       }`
-    : `sticky top-0 backdrop-blur-sm border-b z-50 transition-all duration-300 ${
+    : `sticky top-0 backdrop-blur-sm border-b z-[100] transition-all duration-300 ${
         isDarkMode
           ? "bg-gray-900/95 border-gray-700"
           : "bg-white/95 border-gray-100"
@@ -88,27 +102,29 @@ export function Header() {
     <header className={headerClasses}>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Mobile Header - Single row with proper alignment */}
-        <div className="flex lg:hidden items-center justify-between py-4">
+        <div className="flex lg:hidden items-center justify-between py-4 relative">
           {/* Mobile menu button */}
           <button
             type="button"
-            className={`-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 min-h-[44px] min-w-[44px] transition-all duration-200 ${mobileButtonColor}`}
+            className={`inline-flex items-center justify-center rounded-md p-2.5 min-h-[44px] min-w-[44px] transition-all duration-200 ${mobileButtonColor}`}
             onClick={() => setMobileMenuOpen(true)}
           >
             <span className="sr-only">Open main menu</span>
             <Menu className="h-6 w-6" aria-hidden="true" />
           </button>
 
-          {/* Logo - centered */}
-          <Link to="/" className="-m-1.5 p-1.5">
-            <img
-              src={logoSrc}
-              alt="Kuni Couture"
-              className={`h-16 w-auto transition-all duration-300 ${
-                isHomePage && !isScrolled ? "drop-shadow-lg" : ""
-              }`}
-            />
-          </Link>
+          {/* Logo - absolutely centered */}
+          <div className="absolute left-1/2 transform -translate-x-1/2">
+            <Link to="/" className="-m-1.5 p-1.5">
+              <img
+                src={logoSrc}
+                alt="Kuni Couture"
+                className={`h-16 w-auto transition-all duration-300 ${
+                  isHomePage && !isScrolled ? "drop-shadow-lg" : ""
+                }`}
+              />
+            </Link>
+          </div>
 
           {/* Dark mode toggle */}
           <div className="flex items-center">
@@ -165,11 +181,11 @@ export function Header() {
       {mobileMenuOpen && (
         <div className="lg:hidden">
           <div
-            className="fixed inset-0 z-[60] bg-black/20"
+            className="fixed inset-0 z-[110] bg-black/20"
             onClick={() => setMobileMenuOpen(false)}
           />
           <div
-            className={`fixed inset-y-0 right-0 z-[70] w-full overflow-y-auto px-6 py-6 sm:max-w-sm sm:ring-1 shadow-2xl ${
+            className={`fixed inset-y-0 right-0 z-[120] w-full overflow-y-auto px-6 py-6 sm:max-w-sm sm:ring-1 shadow-2xl ${
               isDarkMode
                 ? "bg-gray-900 sm:ring-gray-700"
                 : "bg-white sm:ring-gray-900/10"
