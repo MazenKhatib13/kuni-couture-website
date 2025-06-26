@@ -1,15 +1,27 @@
-export function Collection() {
+import { useDarkMode } from "../contexts/DarkModeContext";
+
+export default function Collection() {
+  const { isDarkMode } = useDarkMode();
+
   return (
-    <div className="bg-white">
+    <div className={`min-h-screen ${isDarkMode ? "bg-gray-900" : "bg-white"}`}>
       {/* Header */}
-      <section className="py-24 bg-gray-50">
+      <section className={`py-24 ${isDarkMode ? "bg-gray-800" : "bg-gray-50"}`}>
         <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center">
-          <h1 className="hero-text text-gray-900 mb-6">2022 Collection</h1>
-          <p className="body-text text-gray-600 max-w-3xl mx-auto">
-            Discover our signature collection of couture gowns, each piece
-            meticulously crafted to celebrate the strength and beauty of the
-            modern woman. Every gown tells a story of empowerment and
-            self-expression.
+          <h1
+            className={`font-malayalam font-bold text-5xl mb-6 ${
+              isDarkMode ? "text-gray-100" : "text-gray-900"
+            }`}
+          >
+            Couture Collection
+          </h1>
+          <p
+            className={`text-xl max-w-2xl mx-auto ${
+              isDarkMode ? "text-gray-300" : "text-gray-600"
+            }`}
+          >
+            Discover our exquisite collection of handcrafted gowns, each piece
+            designed to celebrate your unique beauty and inner strength.
           </p>
         </div>
       </section>
@@ -18,29 +30,31 @@ export function Collection() {
       <section className="py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Placeholder for collection items */}
-            {Array.from({ length: 12 }, (_, i) => (
-              <div key={i} className="group cursor-pointer">
-                <div className="aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden mb-4 group-hover:scale-105 transition-transform duration-300">
+            {[1, 2, 3, 4, 5, 6].map((item) => (
+              <div key={item} className="group cursor-pointer">
+                <div
+                  className={`aspect-[3/4] mb-4 rounded-lg ${
+                    isDarkMode ? "bg-gray-800" : "bg-gray-100"
+                  }`}
+                >
                   <div className="w-full h-full flex items-center justify-center text-gray-400">
-                    <div className="text-center">
-                      <div className="text-sm mb-2">Gown {i + 1}</div>
-                      <div className="text-xs text-gray-300">Click to view</div>
-                    </div>
+                    <span className="text-sm">Collection Item {item}</span>
                   </div>
                 </div>
-                <div className="text-center">
-                  <h3 className="font-malayalam font-medium text-lg text-gray-900 mb-2">
-                    Look {String(i + 1).padStart(2, "0")}
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Couture evening gown featuring intricate beadwork and
-                    flowing silhouette.
-                  </p>
-                  <button className="text-primary-600 hover:text-primary-700 text-sm font-medium transition-colors">
-                    Inquire Now
-                  </button>
-                </div>
+                <h3
+                  className={`font-malayalam font-bold text-lg mb-2 ${
+                    isDarkMode ? "text-gray-100" : "text-gray-900"
+                  }`}
+                >
+                  Signature Gown {item}
+                </h3>
+                <p
+                  className={`text-sm ${
+                    isDarkMode ? "text-gray-300" : "text-gray-600"
+                  }`}
+                >
+                  Handcrafted couture piece
+                </p>
               </div>
             ))}
           </div>
@@ -48,21 +62,32 @@ export function Collection() {
       </section>
 
       {/* Call to Action */}
-      <section className="py-24 bg-gray-50">
+      <section className={`py-24 ${isDarkMode ? "bg-gray-800" : "bg-gray-50"}`}>
         <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center">
-          <h2 className="section-heading text-gray-900 mb-4">
-            Interested in a Piece?
-          </h2>
-          <p className="body-text text-gray-600 mb-8 max-w-2xl mx-auto">
-            Each gown is made to order with personalized fittings and
-            customizations. Contact us to begin your couture journey.
-          </p>
-          <a
-            href="mailto:info@kunicouture.com"
-            className="btn-primary inline-block"
+          <h2
+            className={`font-malayalam font-bold text-4xl mb-6 ${
+              isDarkMode ? "text-gray-100" : "text-gray-900"
+            }`}
           >
-            Enquire at info@kunicouture.com
-          </a>
+            Ready to Create Your Dream Gown?
+          </h2>
+          <p
+            className={`text-xl mb-8 max-w-2xl mx-auto ${
+              isDarkMode ? "text-gray-300" : "text-gray-600"
+            }`}
+          >
+            Schedule a consultation to discuss your vision and begin the journey
+            to your perfect couture piece.
+          </p>
+          <button
+            className={`px-8 py-3 rounded-md font-medium transition-colors ${
+              isDarkMode
+                ? "bg-accent-500 text-gray-900 hover:bg-accent-600"
+                : "bg-primary-600 text-white hover:bg-primary-700"
+            }`}
+          >
+            Book Consultation
+          </button>
         </div>
       </section>
     </div>

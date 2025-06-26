@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
+import DarkModeToggle from "./DarkModeToggle";
+import { useDarkMode } from "../contexts/DarkModeContext";
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -11,26 +13,98 @@ const navigation = [
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const isHomePage = location.pathname === "/";
+  const { isDarkMode } = useDarkMode();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100);
+    };
+
+    if (isHomePage) {
+      window.addEventListener("scroll", handleScroll);
+      return () => window.removeEventListener("scroll", handleScroll);
+    }
+  }, [isHomePage]);
+
+  // Determine header styling based on page, scroll position, and dark mode
+  const headerClasses = isHomePage
+    ? `sticky top-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? isDarkMode
+            ? "bg-gray-900/95 backdrop-blur-sm border-b border-gray-700"
+            : "bg-white/95 backdrop-blur-sm border-b border-gray-100"
+          : "bg-transparent"
+      }`
+    : `sticky top-0 backdrop-blur-sm border-b z-50 ${
+        isDarkMode
+          ? "bg-gray-900/95 border-gray-700"
+          : "bg-white/95 border-gray-100"
+      }`;
+
+  // Determine logo based on dark mode and transparency
+  const logoSrc = (() => {
+    if (isHomePage && !isScrolled) {
+      // Transparent header - use white logo in dark mode, teal-white in light mode
+      return isDarkMode
+        ? "/images/logo_variant_white.svg"
+        : "/images/logo_variant_tealwhite.svg";
+    }
+    // Solid header - use appropriate logo for dark/light mode
+    return isDarkMode
+      ? "/images/logo_variant_white.svg"
+      : "/images/logo_variant_tealwhite.svg";
+  })();
+
+  // Determine text colors based on header background and dark mode
+  const textColorClasses = (() => {
+    if (isHomePage && !isScrolled) {
+      return "text-white hover:text-accent-500";
+    }
+    return isDarkMode
+      ? "text-gray-100 hover:text-accent-500"
+      : "text-gray-900 hover:text-accent-500";
+  })();
+
+  const activeTextColor = "text-accent-500";
+
+  const mobileButtonColor = (() => {
+    if (isHomePage && !isScrolled) {
+      return "text-white hover:text-accent-500";
+    }
+    return isDarkMode
+      ? "text-gray-100 hover:text-accent-500"
+      : "text-gray-700 hover:text-accent-500";
+  })();
 
   return (
-    <header className="sticky top-0 bg-white/95 backdrop-blur-sm border-b border-gray-100 z-50">
-      <nav className="mx-auto max-w-7xl px-6 lg:px-8" aria-label="Global">
-        <div className="flex items-center justify-between py-6">
-          {/* Logo */}
-          <div className="flex lg:flex-1">
-            <Link to="/" className="-m-1.5 p-1.5">
-              <span className="font-malayalam font-bold text-2xl text-primary-600">
-                KUNI COUTURE
-              </span>
-            </Link>
-          </div>
+    <header className={headerClasses}>
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        {/* Logo Section */}
+        <div className="flex justify-center py-4">
+          <Link to="/" className="-m-1.5 p-1.5">
+            <img
+              src={logoSrc}
+              alt="Kuni Couture"
+              className={`h-20 w-auto transition-all duration-300 ${
+                isHomePage && !isScrolled ? "drop-shadow-lg" : ""
+              }`}
+            />
+          </Link>
+        </div>
 
+        {/* Navigation Section */}
+        <nav
+          className="flex items-center justify-between pb-3"
+          aria-label="Global"
+        >
           {/* Mobile menu button */}
           <div className="flex lg:hidden">
             <button
               type="button"
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+              className={`-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 transition-colors ${mobileButtonColor}`}
               onClick={() => setMobileMenuOpen(true)}
             >
               <span className="sr-only">Open main menu</span>
@@ -38,39 +112,72 @@ export function Header() {
             </button>
           </div>
 
-          {/* Desktop navigation */}
-          <div className="hidden lg:flex lg:gap-x-12">
+          {/* Desktop navigation - centered */}
+          <div className="hidden lg:flex lg:flex-1 lg:justify-center lg:gap-x-12">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
-                className={`text-sm font-medium leading-6 transition-colors hover:text-primary-600 ${
+                className={`text-sm font-medium leading-6 transition-colors ${
                   location.pathname === item.href
-                    ? "text-primary-600"
-                    : "text-gray-900"
-                }`}
+                    ? activeTextColor
+                    : textColorClasses
+                } ${isHomePage && !isScrolled ? "drop-shadow-md" : ""}`}
               >
                 {item.name}
               </Link>
             ))}
           </div>
-        </div>
-      </nav>
+
+          {/* Dark mode toggle - wrapped in its own div */}
+          <div className="flex lg:hidden w-10 justify-end">
+            <DarkModeToggle />
+          </div>
+
+          {/* Desktop dark mode toggle */}
+          <div className="hidden lg:flex">
+            <DarkModeToggle />
+          </div>
+        </nav>
+      </div>
 
       {/* Mobile menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden">
-          <div className="fixed inset-0 z-50" />
-          <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+          <div
+            className="fixed inset-0 z-50 bg-black/20"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+          <div
+            className={`fixed inset-y-0 right-0 z-50 w-full overflow-y-auto px-6 py-6 sm:max-w-sm sm:ring-1 ${
+              isDarkMode
+                ? "bg-gray-900 sm:ring-gray-700"
+                : "bg-white sm:ring-gray-900/10"
+            }`}
+          >
             <div className="flex items-center justify-between">
-              <Link to="/" className="-m-1.5 p-1.5">
-                <span className="font-malayalam font-bold text-xl text-primary-600">
-                  KUNI COUTURE
-                </span>
+              <Link
+                to="/"
+                className="-m-1.5 p-1.5"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <img
+                  src={
+                    isDarkMode
+                      ? "/images/logo_variant_white.svg"
+                      : "/images/logo_variant_tealwhite.svg"
+                  }
+                  alt="Kuni Couture"
+                  className="h-12 w-auto"
+                />
               </Link>
               <button
                 type="button"
-                className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                className={`-m-2.5 rounded-md p-2.5 transition-colors ${
+                  isDarkMode
+                    ? "text-gray-100 hover:text-accent-500"
+                    : "text-gray-700 hover:text-accent-500"
+                }`}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <span className="sr-only">Close menu</span>
@@ -84,9 +191,11 @@ export function Header() {
                     <Link
                       key={item.name}
                       to={item.href}
-                      className={`-mx-3 block rounded-lg px-3 py-2 text-base font-medium leading-7 transition-colors hover:bg-gray-50 ${
+                      className={`-mx-3 block rounded-lg px-3 py-2 text-base font-medium leading-7 transition-colors hover:bg-accent-500/10 hover:text-accent-500 ${
                         location.pathname === item.href
-                          ? "text-primary-600"
+                          ? "text-accent-500 bg-accent-500/5"
+                          : isDarkMode
+                          ? "text-gray-100"
                           : "text-gray-900"
                       }`}
                       onClick={() => setMobileMenuOpen(false)}
