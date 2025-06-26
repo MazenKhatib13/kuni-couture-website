@@ -23,11 +23,15 @@ export function Header() {
       setIsScrolled(window.scrollY > 100);
     };
 
-    if (isHomePage) {
-      window.addEventListener("scroll", handleScroll);
-      return () => window.removeEventListener("scroll", handleScroll);
-    }
-  }, [isHomePage]);
+    // Add scroll listener on all pages, not just homepage
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []); // Remove isHomePage dependency
+
+  // Close mobile menu when location changes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
 
   // Determine header styling based on page, scroll position, and dark mode
   const headerClasses = isHomePage
@@ -38,7 +42,7 @@ export function Header() {
             : "bg-white/95 backdrop-blur-sm border-b border-gray-100"
           : "bg-transparent"
       }`
-    : `sticky top-0 backdrop-blur-sm border-b z-50 ${
+    : `sticky top-0 backdrop-blur-sm border-b z-50 transition-all duration-300 ${
         isDarkMode
           ? "bg-gray-900/95 border-gray-700"
           : "bg-white/95 border-gray-100"
@@ -70,13 +74,14 @@ export function Header() {
 
   const activeTextColor = "text-accent-500";
 
+  // Improved mobile button color logic for better visibility
   const mobileButtonColor = (() => {
     if (isHomePage && !isScrolled) {
-      return "text-white hover:text-accent-500";
+      return "text-white hover:text-accent-500 bg-black/20 hover:bg-black/30 backdrop-blur-sm";
     }
     return isDarkMode
-      ? "text-gray-100 hover:text-accent-500"
-      : "text-gray-700 hover:text-accent-500";
+      ? "text-gray-100 hover:text-accent-500 hover:bg-gray-800/50"
+      : "text-gray-700 hover:text-accent-500 hover:bg-gray-100/50";
   })();
 
   return (
@@ -87,7 +92,7 @@ export function Header() {
           {/* Mobile menu button */}
           <button
             type="button"
-            className={`-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 transition-colors ${mobileButtonColor}`}
+            className={`-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 min-h-[44px] min-w-[44px] transition-all duration-200 ${mobileButtonColor}`}
             onClick={() => setMobileMenuOpen(true)}
           >
             <span className="sr-only">Open main menu</span>
@@ -160,11 +165,11 @@ export function Header() {
       {mobileMenuOpen && (
         <div className="lg:hidden">
           <div
-            className="fixed inset-0 z-50 bg-black/20"
+            className="fixed inset-0 z-[60] bg-black/20"
             onClick={() => setMobileMenuOpen(false)}
           />
           <div
-            className={`fixed inset-y-0 right-0 z-50 w-full overflow-y-auto px-6 py-6 sm:max-w-sm sm:ring-1 ${
+            className={`fixed inset-y-0 right-0 z-[70] w-full overflow-y-auto px-6 py-6 sm:max-w-sm sm:ring-1 shadow-2xl ${
               isDarkMode
                 ? "bg-gray-900 sm:ring-gray-700"
                 : "bg-white sm:ring-gray-900/10"
