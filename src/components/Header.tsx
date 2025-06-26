@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
+import { createPortal } from "react-dom";
 import DarkModeToggle from "./DarkModeToggle";
 import { useDarkMode } from "../contexts/DarkModeContext";
 
@@ -36,15 +37,14 @@ export function Header() {
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
+      // Store original overflow and prevent scrolling
+      const originalOverflow = document.body.style.overflow;
       document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
 
-    // Cleanup on unmount
-    return () => {
-      document.body.style.overflow = "unset";
-    };
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
   }, [mobileMenuOpen]);
 
   // Determine header styling based on page, scroll position, and dark mode
@@ -177,74 +177,76 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden">
-          <div
-            className="fixed inset-0 z-[110] bg-black/20"
-            onClick={() => setMobileMenuOpen(false)}
-          />
-          <div
-            className={`fixed inset-y-0 right-0 z-[120] w-full overflow-y-auto px-6 py-6 sm:max-w-sm sm:ring-1 shadow-2xl ${
-              isDarkMode
-                ? "bg-gray-900 sm:ring-gray-700"
-                : "bg-white sm:ring-gray-900/10"
-            }`}
-          >
-            <div className="flex items-center justify-between">
-              <Link
-                to="/"
-                className="-m-1.5 p-1.5"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <img
-                  src={
+      {/* Mobile menu - rendered as portal to body */}
+      {mobileMenuOpen &&
+        createPortal(
+          <div className="lg:hidden">
+            {/* Backdrop */}
+            <div
+              className="fixed inset-0 z-[110] bg-black/20 backdrop-blur-sm"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+            {/* Menu Panel */}
+            <div
+              className={`fixed top-0 right-0 bottom-0 z-[120] w-full sm:w-96 overflow-y-auto px-6 py-6 shadow-2xl transform transition-transform duration-300 ease-in-out ${
+                isDarkMode ? "bg-gray-900" : "bg-white"
+              }`}
+            >
+              <div className="flex items-center justify-between">
+                <Link
+                  to="/"
+                  className="-m-1.5 p-1.5"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <img
+                    src={
+                      isDarkMode
+                        ? "/images/logo_variant_white.svg"
+                        : "/images/logo_variant_tealwhite.svg"
+                    }
+                    alt="Kuni Couture"
+                    className="h-12 w-auto"
+                  />
+                </Link>
+                <button
+                  type="button"
+                  className={`-m-2.5 rounded-md p-2.5 transition-colors ${
                     isDarkMode
-                      ? "/images/logo_variant_white.svg"
-                      : "/images/logo_variant_tealwhite.svg"
-                  }
-                  alt="Kuni Couture"
-                  className="h-12 w-auto"
-                />
-              </Link>
-              <button
-                type="button"
-                className={`-m-2.5 rounded-md p-2.5 transition-colors ${
-                  isDarkMode
-                    ? "text-gray-100 hover:text-accent-500"
-                    : "text-gray-700 hover:text-accent-500"
-                }`}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <span className="sr-only">Close menu</span>
-                <X className="h-6 w-6" aria-hidden="true" />
-              </button>
-            </div>
-            <div className="mt-6 flow-root">
-              <div className="-my-6 divide-y divide-gray-500/10">
-                <div className="space-y-2 py-6">
-                  {navigation.map((item) => (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className={`-mx-3 block rounded-lg px-3 py-2 text-base font-medium leading-7 transition-colors hover:bg-accent-500/10 hover:text-accent-500 ${
-                        location.pathname === item.href
-                          ? "text-accent-500 bg-accent-500/5"
-                          : isDarkMode
-                          ? "text-gray-100"
-                          : "text-gray-900"
-                      }`}
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
+                      ? "text-gray-100 hover:text-accent-500"
+                      : "text-gray-700 hover:text-accent-500"
+                  }`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span className="sr-only">Close menu</span>
+                  <X className="h-6 w-6" aria-hidden="true" />
+                </button>
+              </div>
+              <div className="mt-6 flow-root">
+                <div className="-my-6 divide-y divide-gray-500/10">
+                  <div className="space-y-2 py-6">
+                    {navigation.map((item) => (
+                      <Link
+                        key={item.name}
+                        to={item.href}
+                        className={`-mx-3 block rounded-lg px-3 py-2 text-base font-medium leading-7 transition-colors hover:bg-accent-500/10 hover:text-accent-500 ${
+                          location.pathname === item.href
+                            ? "text-accent-500 bg-accent-500/5"
+                            : isDarkMode
+                            ? "text-gray-100"
+                            : "text-gray-900"
+                        }`}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </header>
   );
 }
