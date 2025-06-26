@@ -98,12 +98,21 @@ body.home-page {
   }
 }
 
+/* Mobile-optimized button styles */
 .btn-primary {
   background-color: #006167;
   color: white;
-  padding: 0.75rem 1.5rem;
+  padding: 0.875rem 1.5rem; /* Slightly larger padding for mobile */
   font-weight: 500;
   transition: background-color 0.3s ease;
+  min-height: 44px; /* iOS recommended minimum touch target */
+  touch-action: manipulation; /* Prevents zoom on double-tap */
+}
+
+@media (min-width: 768px) {
+  .btn-primary {
+    padding: 0.75rem 1.5rem; /* Standard padding for desktop */
+  }
 }
 
 .btn-primary:hover {
@@ -122,9 +131,17 @@ body.home-page {
 .btn-outline {
   border: 2px solid #006167;
   color: #006167;
-  padding: 0.75rem 1.5rem;
+  padding: 0.875rem 1.5rem; /* Slightly larger padding for mobile */
   font-weight: 500;
   transition: all 0.3s ease;
+  min-height: 44px; /* iOS recommended minimum touch target */
+  touch-action: manipulation; /* Prevents zoom on double-tap */
+}
+
+@media (min-width: 768px) {
+  .btn-outline {
+    padding: 0.75rem 1.5rem; /* Standard padding for desktop */
+  }
 }
 
 .btn-outline:hover {
@@ -140,4 +157,24 @@ body.home-page {
 .dark .btn-outline:hover {
   background-color: #998543;
   color: #111827;
+}
+
+/* Mobile touch improvements */
+@media (max-width: 767px) {
+  /* Ensure all buttons have adequate touch targets */
+  button, .btn-primary, .btn-outline {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+  
+  /* Improve spacing for mobile interactions */
+  .space-y-2 > * + * {
+    margin-top: 0.75rem;
+  }
+  
+  /* Better mobile form inputs */
+  input, textarea, select {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
 }

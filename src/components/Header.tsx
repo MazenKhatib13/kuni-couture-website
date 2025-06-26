@@ -82,63 +82,78 @@ export function Header() {
   return (
     <header className={headerClasses}>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        {/* Logo Section */}
-        <div className="flex justify-center py-4">
+        {/* Mobile Header - Single row with proper alignment */}
+        <div className="flex lg:hidden items-center justify-between py-4">
+          {/* Mobile menu button */}
+          <button
+            type="button"
+            className={`-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 transition-colors ${mobileButtonColor}`}
+            onClick={() => setMobileMenuOpen(true)}
+          >
+            <span className="sr-only">Open main menu</span>
+            <Menu className="h-6 w-6" aria-hidden="true" />
+          </button>
+
+          {/* Logo - centered */}
           <Link to="/" className="-m-1.5 p-1.5">
             <img
               src={logoSrc}
               alt="Kuni Couture"
-              className={`h-20 w-auto transition-all duration-300 ${
+              className={`h-16 w-auto transition-all duration-300 ${
                 isHomePage && !isScrolled ? "drop-shadow-lg" : ""
               }`}
             />
           </Link>
+
+          {/* Dark mode toggle */}
+          <div className="flex items-center">
+            <DarkModeToggle />
+          </div>
         </div>
 
-        {/* Navigation Section */}
-        <nav
-          className="flex items-center justify-between pb-3"
-          aria-label="Global"
-        >
-          {/* Mobile menu button */}
-          <div className="flex lg:hidden">
-            <button
-              type="button"
-              className={`-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 transition-colors ${mobileButtonColor}`}
-              onClick={() => setMobileMenuOpen(true)}
-            >
-              <span className="sr-only">Open main menu</span>
-              <Menu className="h-6 w-6" aria-hidden="true" />
-            </button>
+        {/* Desktop Header - Two rows */}
+        <div className="hidden lg:block">
+          {/* Logo Section */}
+          <div className="flex justify-center py-4">
+            <Link to="/" className="-m-1.5 p-1.5">
+              <img
+                src={logoSrc}
+                alt="Kuni Couture"
+                className={`h-20 w-auto transition-all duration-300 ${
+                  isHomePage && !isScrolled ? "drop-shadow-lg" : ""
+                }`}
+              />
+            </Link>
           </div>
 
-          {/* Desktop navigation - centered */}
-          <div className="hidden lg:flex lg:flex-1 lg:justify-center lg:gap-x-12">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={`text-sm font-medium leading-6 transition-colors ${
-                  location.pathname === item.href
-                    ? activeTextColor
-                    : textColorClasses
-                } ${isHomePage && !isScrolled ? "drop-shadow-md" : ""}`}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
+          {/* Navigation Section */}
+          <nav
+            className="flex items-center justify-between pb-3"
+            aria-label="Global"
+          >
+            {/* Desktop navigation - centered */}
+            <div className="flex flex-1 justify-center gap-x-12">
+              {navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`text-sm font-medium leading-6 transition-colors ${
+                    location.pathname === item.href
+                      ? activeTextColor
+                      : textColorClasses
+                  } ${isHomePage && !isScrolled ? "drop-shadow-md" : ""}`}
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
 
-          {/* Dark mode toggle - wrapped in its own div */}
-          <div className="flex lg:hidden w-10 justify-end">
-            <DarkModeToggle />
-          </div>
-
-          {/* Desktop dark mode toggle */}
-          <div className="hidden lg:flex">
-            <DarkModeToggle />
-          </div>
-        </nav>
+            {/* Desktop dark mode toggle */}
+            <div className="flex">
+              <DarkModeToggle />
+            </div>
+          </nav>
+        </div>
       </div>
 
       {/* Mobile menu */}

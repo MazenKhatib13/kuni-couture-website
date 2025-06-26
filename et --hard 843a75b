@@ -1,0 +1,8 @@
+[33mf8dac9d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Fix hero text visibility for video fallback - text now stays visible when no video is playing
+[33m654be86[m Update Home component with elegant fallback and Git LFS video support
+[33m1a535a2[m Set up Git LFS for video files and remove large videos temporarily
+[33mc550d89[m Add remaining files
+[33m5607d5f[m Delete ite
+[33m843a75b[m Final
+[33m14f64ef[m Implement comprehensive dark mode support across all pages and components
+[33mbcc4457[m Initial commit: Kuni Couture website with React, TypeScript, and Tailwind CSS
