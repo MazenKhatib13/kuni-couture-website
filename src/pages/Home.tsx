@@ -48,10 +48,16 @@ export function Home() {
   const handleVideoLoad = () => {
     setVideoLoaded(true);
     setHasVideo(true);
-    // Ensure video keeps playing
-    if (videoRef.current) {
-      videoRef.current.play().catch(console.error);
-    }
+
+    // Ensure video plays after it's fully loaded
+    setTimeout(() => {
+      if (videoRef.current) {
+        videoRef.current.play().catch((error) => {
+          console.log("Autoplay after load failed:", error);
+        });
+      }
+    }, 100); // Small delay to ensure video is ready
+
     // Fade out text after 3 seconds when video loads
     setTimeout(() => {
       setShowText(false);
@@ -69,14 +75,105 @@ export function Home() {
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (videoRef.current && videoLoaded && hasVideo && !document.hidden) {
-        videoRef.current.play().catch(console.error);
+        // Add a small delay to ensure the page is fully active
+        setTimeout(() => {
+          if (videoRef.current && !document.hidden) {
+            videoRef.current.play().catch((error) => {
+              console.log("Resume play failed:", error);
+            });
+          }
+        }, 100);
       }
     };
 
+    const handleFocus = () => {
+      if (videoRef.current && videoLoaded && hasVideo) {
+        setTimeout(() => {
+          if (videoRef.current) {
+            videoRef.current.play().catch((error) => {
+              console.log("Focus resume play failed:", error);
+            });
+          }
+        }, 100);
+      }
+    };
+
+    const handlePageShow = () => {
+      if (videoRef.current && videoLoaded && hasVideo) {
+        setTimeout(() => {
+          if (videoRef.current) {
+            videoRef.current.play().catch((error) => {
+              console.log("PageShow resume play failed:", error);
+            });
+          }
+        }, 100);
+      }
+    };
+
+    // Add multiple event listeners for different scenarios
     document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () =>
+    window.addEventListener("focus", handleFocus);
+    window.addEventListener("pageshow", handlePageShow);
+
+    return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("focus", handleFocus);
+      window.removeEventListener("pageshow", handlePageShow);
+    };
   }, [videoLoaded, hasVideo]);
+
+  // Additional effect to ensure video plays when ready
+  useEffect(() => {
+    if (videoLoaded && hasVideo && videoRef.current) {
+      const playVideo = () => {
+        if (videoRef.current) {
+          videoRef.current.play().catch((error) => {
+            console.log("Play attempt failed:", error);
+          });
+        }
+      };
+
+      // Try to play immediately
+      playVideo();
+
+      // Also try after a short delay in case the video needs more time
+      const timeoutId = setTimeout(playVideo, 200);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [videoLoaded, hasVideo]);
+
+  // Video viewport intersection observer to resume play when video is visible
+  useEffect(() => {
+    if (!videoRef.current || !videoLoaded || !hasVideo) return;
+
+    const videoIntersectionObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && videoRef.current) {
+          // Video is visible, ensure it's playing
+          setTimeout(() => {
+            if (videoRef.current && entry.isIntersecting) {
+              videoRef.current.play().catch((error) => {
+                console.log("Intersection resume play failed:", error);
+              });
+            }
+          }, 100);
+        }
+      },
+      { threshold: 0.25 } // Trigger when 25% of video is visible
+    );
+
+    videoIntersectionObserver.observe(videoRef.current);
+
+    return () => {
+      videoIntersectionObserver.disconnect();
+    };
+  }, [videoLoaded, hasVideo]);
+
+  const handleNavClick = () => {
+    // Scroll to top when navigating to a new page
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div className="bg-transparent" data-page="home">
@@ -115,9 +212,19 @@ export function Home() {
                 onLoadedData={handleVideoLoad}
                 onError={handleVideoError}
                 onCanPlayThrough={() => {
-                  // Ensure video plays when it's ready
+                  // Ensure video plays when it's ready to play through
                   if (videoRef.current) {
-                    videoRef.current.play().catch(console.error);
+                    videoRef.current.play().catch((error) => {
+                      console.log("CanPlayThrough play failed:", error);
+                    });
+                  }
+                }}
+                onLoadedMetadata={() => {
+                  // Try to play when metadata is loaded
+                  if (videoRef.current) {
+                    videoRef.current.play().catch((error) => {
+                      console.log("LoadedMetadata play failed:", error);
+                    });
                   }
                 }}
               >
@@ -195,6 +302,7 @@ export function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/collection"
+                onClick={handleNavClick}
                 className="bg-white text-primary-600 hover:bg-gray-50 px-8 py-4 sm:py-3 font-medium transition-colors inline-flex items-center justify-center gap-2 shadow-lg min-h-[44px] touch-manipulation"
               >
                 Explore Collection
@@ -202,6 +310,7 @@ export function Home() {
               </Link>
               <Link
                 to="/about"
+                onClick={handleNavClick}
                 className="border-2 border-white text-white hover:bg-white hover:text-primary-600 px-8 py-4 sm:py-3 font-medium transition-colors inline-flex items-center justify-center min-h-[44px] touch-manipulation"
               >
                 Our Story
@@ -266,15 +375,6 @@ export function Home() {
                   Elegant couture gown crafted with the finest materials and
                   attention to detail.
                 </p>
-                <button
-                  className={`text-sm font-medium transition-colors py-2 px-4 min-h-[44px] touch-manipulation ${
-                    isDarkMode
-                      ? "text-accent-500 hover:text-accent-600"
-                      : "text-primary-600 hover:text-primary-700"
-                  }`}
-                >
-                  Inquire Now →
-                </button>
               </div>
             ))}
           </div>
@@ -282,6 +382,7 @@ export function Home() {
           <div className="text-center mt-12">
             <Link
               to="/collection"
+              onClick={handleNavClick}
               className="btn-outline inline-flex items-center gap-2"
             >
               View Full Collection
@@ -405,40 +506,6 @@ export function Home() {
               </p>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section
-        className={`py-24 ${isDarkMode ? "bg-accent-500" : "bg-primary-600"}`}
-      >
-        <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center">
-          <h2
-            className={`section-heading mb-4 ${
-              isDarkMode ? "text-gray-900" : "text-white"
-            }`}
-          >
-            Ready to Begin Your Journey?
-          </h2>
-          <p
-            className={`body-text mb-8 max-w-2xl mx-auto ${
-              isDarkMode ? "text-gray-900/90" : "text-white/90"
-            }`}
-          >
-            Connect with us to explore our collection and discover the perfect
-            piece that celebrates your unique beauty.
-          </p>
-          <Link
-            to="/contact"
-            className={`px-8 py-4 sm:py-3 font-medium transition-colors inline-flex items-center gap-2 min-h-[44px] touch-manipulation ${
-              isDarkMode
-                ? "bg-gray-900 text-accent-500 hover:bg-gray-800"
-                : "bg-white text-primary-600 hover:bg-gray-50"
-            }`}
-          >
-            Get in Touch
-            <ArrowRight className="h-4 w-4" />
-          </Link>
         </div>
       </section>
     </div>

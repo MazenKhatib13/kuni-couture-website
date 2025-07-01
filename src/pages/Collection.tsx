@@ -1,3 +1,4 @@
+import React from "react";
 import { useDarkMode } from "../contexts/DarkModeContext";
 
 export default function Collection() {
@@ -69,25 +70,16 @@ export default function Collection() {
               isDarkMode ? "text-gray-100" : "text-gray-900"
             }`}
           >
-            Ready to Create Your Dream Gown?
+            Discover Your Perfect Piece
           </h2>
           <p
             className={`text-xl mb-8 max-w-2xl mx-auto ${
               isDarkMode ? "text-gray-300" : "text-gray-600"
             }`}
           >
-            Schedule a consultation to discuss your vision and begin the journey
-            to your perfect couture piece.
+            Each gown tells a story of craftsmanship, elegance, and the
+            celebration of your unique beauty.
           </p>
-          <button
-            className={`px-8 py-3 rounded-md font-medium transition-colors ${
-              isDarkMode
-                ? "bg-accent-500 text-gray-900 hover:bg-accent-600"
-                : "bg-primary-600 text-white hover:bg-primary-700"
-            }`}
-          >
-            Book Consultation
-          </button>
         </div>
       </section>
     </div>

@@ -1,19 +1,24 @@
 import { Link } from "react-router-dom";
-import { Instagram, Mail, Phone } from "lucide-react";
+import { Instagram, Phone } from "lucide-react";
 import { useDarkMode } from "../contexts/DarkModeContext";
 
 const navigation = [
   { name: "Home", href: "/" },
   { name: "Collection", href: "/collection" },
   { name: "About", href: "/about" },
-  { name: "Contact", href: "/contact" },
 ];
 
 export function Footer() {
   const { isDarkMode } = useDarkMode();
 
+  const handleNavClick = () => {
+    // Scroll to top when navigating to a new page
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <footer
+      id="contact"
       className={`border-t ${
         isDarkMode
           ? "bg-gray-900 border-gray-700"
@@ -44,7 +49,9 @@ export function Footer() {
             </div>
             <div className="flex space-x-6">
               <a
-                href="#"
+                href="https://www.instagram.com/kuni.boutique/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`transition-colors ${
                   isDarkMode
                     ? "text-gray-400 hover:text-accent-500"
@@ -55,18 +62,7 @@ export function Footer() {
                 <Instagram className="h-6 w-6" />
               </a>
               <a
-                href="mailto:info@kunicouture.com"
-                className={`transition-colors ${
-                  isDarkMode
-                    ? "text-gray-400 hover:text-accent-500"
-                    : "text-gray-400 hover:text-primary-600"
-                }`}
-                aria-label="Email"
-              >
-                <Mail className="h-6 w-6" />
-              </a>
-              <a
-                href="tel:+1234567890"
+                href="tel:+971543034452"
                 className={`transition-colors ${
                   isDarkMode
                     ? "text-gray-400 hover:text-accent-500"
@@ -79,7 +75,7 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Navigation */}
+          {/* Navigation and Contact */}
           <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
             <div>
               <h3
@@ -94,6 +90,7 @@ export function Footer() {
                   <li key={item.name}>
                     <Link
                       to={item.href}
+                      onClick={handleNavClick}
                       className={`text-sm transition-colors ${
                         isDarkMode
                           ? "text-gray-300 hover:text-accent-500"
@@ -107,51 +104,49 @@ export function Footer() {
               </ul>
             </div>
 
-            {/* Newsletter */}
+            {/* Contact Information */}
             <div>
               <h3
                 className={`text-sm font-medium ${
                   isDarkMode ? "text-gray-100" : "text-gray-900"
                 }`}
               >
-                Stay Connected
+                Get in Touch
               </h3>
               <p
                 className={`mt-4 text-sm ${
                   isDarkMode ? "text-gray-300" : "text-gray-600"
                 }`}
               >
-                Subscribe to our newsletter for the latest updates and exclusive
-                access.
+                Connect with us through our social channels to explore our
+                collection and discover your perfect piece.
               </p>
-              <form className="mt-6 flex max-w-md gap-x-4">
-                <label htmlFor="email-address" className="sr-only">
-                  Email address
-                </label>
-                <input
-                  id="email-address"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className={`min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 ${
+              <div className="mt-6 space-y-4">
+                <a
+                  href="https://www.instagram.com/kuni.boutique/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex items-center gap-3 text-sm transition-colors ${
                     isDarkMode
-                      ? "bg-gray-800 text-gray-100 ring-gray-600 placeholder:text-gray-400 focus:ring-accent-500"
-                      : "bg-white text-gray-900 ring-gray-300 placeholder:text-gray-400 focus:ring-primary-600"
-                  }`}
-                  placeholder="Enter your email"
-                />
-                <button
-                  type="submit"
-                  className={`flex-none rounded-md px-3.5 py-2.5 text-sm font-medium shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
-                    isDarkMode
-                      ? "bg-accent-500 text-gray-900 hover:bg-accent-600 focus-visible:outline-accent-500"
-                      : "bg-primary-600 text-white hover:bg-primary-700 focus-visible:outline-primary-600"
+                      ? "text-gray-300 hover:text-accent-500"
+                      : "text-gray-600 hover:text-primary-600"
                   }`}
                 >
-                  Subscribe
-                </button>
-              </form>
+                  <Instagram className="h-5 w-5" />
+                  @kuni.boutique
+                </a>
+                <a
+                  href="tel:+971543034452"
+                  className={`flex items-center gap-3 text-sm transition-colors ${
+                    isDarkMode
+                      ? "text-gray-300 hover:text-accent-500"
+                      : "text-gray-600 hover:text-primary-600"
+                  }`}
+                >
+                  <Phone className="h-5 w-5" />
+                  +971 54 303 4452
+                </a>
+              </div>
             </div>
           </div>
         </div>

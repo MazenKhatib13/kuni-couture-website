@@ -9,7 +9,7 @@ const navigation = [
   { name: "Home", href: "/" },
   { name: "Collection", href: "/collection" },
   { name: "About", href: "/about" },
-  { name: "Contact", href: "/contact" },
+  { name: "Contact", href: "#contact" },
 ];
 
 export function Header() {
@@ -62,19 +62,8 @@ export function Header() {
           : "bg-white/95 border-gray-100"
       }`;
 
-  // Determine logo based on dark mode and transparency
-  const logoSrc = (() => {
-    if (isHomePage && !isScrolled) {
-      // Transparent header - use white logo in dark mode, teal-white in light mode
-      return isDarkMode
-        ? "/images/logo_variant_white.svg"
-        : "/images/logo_variant_tealwhite.svg";
-    }
-    // Solid header - use appropriate logo for dark/light mode
-    return isDarkMode
-      ? "/images/logo_variant_white.svg"
-      : "/images/logo_variant_tealwhite.svg";
-  })();
+  // Use the new simplified KUNI logo PNG for all cases
+  const logoSrc = "/images/Screenshot_2025-07-01_175111-removebg-preview.png";
 
   // Determine text colors based on header background and dark mode
   const textColorClasses = (() => {
@@ -98,6 +87,19 @@ export function Header() {
       : "text-gray-700 hover:text-accent-500 hover:bg-gray-100/50";
   })();
 
+  const handleContactClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const contactSection = document.getElementById("contact");
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handleNavClick = () => {
+    // Scroll to top when navigating to a new page
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <header className={headerClasses}>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -115,7 +117,7 @@ export function Header() {
 
           {/* Logo - absolutely centered */}
           <div className="absolute left-1/2 transform -translate-x-1/2">
-            <Link to="/" className="-m-1.5 p-1.5">
+            <Link to="/" className="-m-1.5 p-1.5" onClick={handleNavClick}>
               <img
                 src={logoSrc}
                 alt="Kuni Couture"
@@ -136,7 +138,7 @@ export function Header() {
         <div className="hidden lg:block">
           {/* Logo Section */}
           <div className="flex justify-center py-4">
-            <Link to="/" className="-m-1.5 p-1.5">
+            <Link to="/" className="-m-1.5 p-1.5" onClick={handleNavClick}>
               <img
                 src={logoSrc}
                 alt="Kuni Couture"
@@ -154,19 +156,33 @@ export function Header() {
           >
             {/* Desktop navigation - centered */}
             <div className="flex flex-1 justify-center gap-x-12">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`text-sm font-medium leading-6 transition-colors ${
-                    location.pathname === item.href
-                      ? activeTextColor
-                      : textColorClasses
-                  } ${isHomePage && !isScrolled ? "drop-shadow-md" : ""}`}
-                >
-                  {item.name}
-                </Link>
-              ))}
+              {navigation.map((item) =>
+                item.name === "Contact" ? (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    onClick={handleContactClick}
+                    className={`text-sm font-medium leading-6 transition-colors cursor-pointer ${textColorClasses} ${
+                      isHomePage && !isScrolled ? "drop-shadow-md" : ""
+                    }`}
+                  >
+                    {item.name}
+                  </a>
+                ) : (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    onClick={handleNavClick}
+                    className={`text-sm font-medium leading-6 transition-colors ${
+                      location.pathname === item.href
+                        ? activeTextColor
+                        : textColorClasses
+                    } ${isHomePage && !isScrolled ? "drop-shadow-md" : ""}`}
+                  >
+                    {item.name}
+                  </Link>
+                )
+              )}
             </div>
 
             {/* Desktop dark mode toggle */}
@@ -196,14 +212,13 @@ export function Header() {
                 <Link
                   to="/"
                   className="-m-1.5 p-1.5"
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    handleNavClick();
+                  }}
                 >
                   <img
-                    src={
-                      isDarkMode
-                        ? "/images/logo_variant_white.svg"
-                        : "/images/logo_variant_tealwhite.svg"
-                    }
+                    src="/images/Screenshot_2025-07-01_175111-removebg-preview.png"
                     alt="Kuni Couture"
                     className="h-12 w-auto"
                   />
@@ -224,22 +239,41 @@ export function Header() {
               <div className="mt-6 flow-root">
                 <div className="-my-6 divide-y divide-gray-500/10">
                   <div className="space-y-2 py-6">
-                    {navigation.map((item) => (
-                      <Link
-                        key={item.name}
-                        to={item.href}
-                        className={`-mx-3 block rounded-lg px-3 py-2 text-base font-medium leading-7 transition-colors hover:bg-accent-500/10 hover:text-accent-500 ${
-                          location.pathname === item.href
-                            ? "text-accent-500 bg-accent-500/5"
-                            : isDarkMode
-                            ? "text-gray-100"
-                            : "text-gray-900"
-                        }`}
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
+                    {navigation.map((item) =>
+                      item.name === "Contact" ? (
+                        <a
+                          key={item.name}
+                          href={item.href}
+                          onClick={(e) => {
+                            handleContactClick(e);
+                            setMobileMenuOpen(false);
+                          }}
+                          className={`-mx-3 block rounded-lg px-3 py-2 text-base font-medium leading-7 transition-colors hover:bg-accent-500/10 hover:text-accent-500 cursor-pointer ${
+                            isDarkMode ? "text-gray-100" : "text-gray-900"
+                          }`}
+                        >
+                          {item.name}
+                        </a>
+                      ) : (
+                        <Link
+                          key={item.name}
+                          to={item.href}
+                          className={`-mx-3 block rounded-lg px-3 py-2 text-base font-medium leading-7 transition-colors hover:bg-accent-500/10 hover:text-accent-500 ${
+                            location.pathname === item.href
+                              ? "text-accent-500 bg-accent-500/5"
+                              : isDarkMode
+                              ? "text-gray-100"
+                              : "text-gray-900"
+                          }`}
+                          onClick={() => {
+                            setMobileMenuOpen(false);
+                            handleNavClick();
+                          }}
+                        >
+                          {item.name}
+                        </Link>
+                      )
+                    )}
                   </div>
                 </div>
               </div>
