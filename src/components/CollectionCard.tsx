@@ -177,15 +177,27 @@ export const CollectionCard: React.FC<CollectionCardProps> = ({
     [prevSlide, nextSlide]
   );
 
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    touchStartX.current = e.targetTouches[0].clientX;
-  }, []);
+  const handleTouchStart = useCallback(
+    (e: React.TouchEvent) => {
+      // Don't process touch if modal is open
+      if (isModalOpen) return;
+      touchStartX.current = e.targetTouches[0].clientX;
+    },
+    [isModalOpen]
+  );
 
-  const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    touchEndX.current = e.targetTouches[0].clientX;
-  }, []);
+  const handleTouchMove = useCallback(
+    (e: React.TouchEvent) => {
+      // Don't process touch if modal is open
+      if (isModalOpen) return;
+      touchEndX.current = e.targetTouches[0].clientX;
+    },
+    [isModalOpen]
+  );
 
   const handleTouchEnd = useCallback(() => {
+    // Don't process touch if modal is open
+    if (isModalOpen) return;
     if (!touchStartX.current || !touchEndX.current) return;
 
     const distance = touchStartX.current - touchEndX.current;
@@ -197,10 +209,18 @@ export const CollectionCard: React.FC<CollectionCardProps> = ({
     } else if (isRightSwipe) {
       prevSlide();
     }
-  }, [nextSlide, prevSlide]);
+
+    // Clear touch state after processing
+    touchStartX.current = 0;
+    touchEndX.current = 0;
+  }, [isModalOpen, nextSlide, prevSlide]);
 
   const openModal = useCallback(
     async (index: number) => {
+      // Clear any pending touch state to prevent queued gestures
+      touchStartX.current = 0;
+      touchEndX.current = 0;
+
       setModalIndex(index);
       setModalImageLoaded(false);
       const currentMedia = media[index];
@@ -231,6 +251,10 @@ export const CollectionCard: React.FC<CollectionCardProps> = ({
   );
 
   const closeModal = useCallback(() => {
+    // Clear any pending touch state to prevent queued gestures
+    touchStartX.current = 0;
+    touchEndX.current = 0;
+
     setIsModalOpen(false);
     document.body.style.overflow = "unset";
     setModalImageLoaded(false);
@@ -295,6 +319,12 @@ export const CollectionCard: React.FC<CollectionCardProps> = ({
     setImageLoaded(false);
     setImageError(false);
   }, [currentIndex]);
+
+  // Clear touch state when modal state changes
+  useEffect(() => {
+    touchStartX.current = 0;
+    touchEndX.current = 0;
+  }, [isModalOpen]);
 
   // Keyboard navigation for modal
   useEffect(() => {
