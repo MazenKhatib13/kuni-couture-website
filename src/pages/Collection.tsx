@@ -573,7 +573,7 @@ export const Collection: React.FC = () => {
                 isDarkMode ? "text-gray-500" : "text-gray-400"
               }`}
             >
-              — Kuni Couture
+              - Kuni Couture
             </cite>
           </div>
         </div>

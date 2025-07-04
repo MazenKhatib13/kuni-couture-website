@@ -20,9 +20,9 @@ export function About() {
               isDarkMode ? "text-gray-300" : "text-gray-600"
             }`}
           >
-            More than fashion — it's a voice, a movement, and a lifestyle.
-            Rooted in the Arabic word "كوني" meaning "Be", Kuni empowers women
-            to embrace who they are — fully, fiercely, and fearlessly.
+            More than fashion, it's a voice, a movement, and a lifestyle. Rooted
+            in the Arabic word "كوني" meaning "Be", Kuni empowers women to
+            embrace who they are: fully, fiercely, and fearlessly.
           </p>
         </div>
       </section>
@@ -45,9 +45,9 @@ export function About() {
                     isDarkMode ? "text-gray-300" : "text-gray-600"
                   }`}
                 >
-                  Kuni is more than fashion — it's a voice, a movement, and a
+                  Kuni is more than fashion, it's a voice, a movement, and a
                   lifestyle. Rooted in the Arabic word "كوني" meaning "Be", Kuni
-                  empowers women to embrace who they are — fully, fiercely, and
+                  empowers women to embrace who they are: fully, fiercely, and
                   fearlessly.
                 </p>
                 <p
@@ -56,7 +56,7 @@ export function About() {
                   }`}
                 >
                   Our brand is a celebration of strength wrapped in elegance.
-                  Kuni speaks to every woman — the dreamer, the leader, the
+                  Kuni speaks to every woman: the dreamer, the leader, the
                   creator. Whether in silk, chiffon, or structured silhouettes,
                   each couture piece is crafted to awaken the senses and tell a
                   story of individuality.
@@ -75,7 +75,7 @@ export function About() {
                     isDarkMode ? "text-accent-500" : "text-primary-600"
                   }`}
                 >
-                  Kuni is not just what you wear — it's what you believe in.
+                  Kuni is not just what you wear, it's what you believe in.
                 </p>
               </div>
             </div>
@@ -123,7 +123,7 @@ export function About() {
                   driven by vision, passion, and purpose. With a background in
                   architecture and luxury real estate, Sara's world has always
                   revolved around beauty, structure, and meaning. Kuni is her
-                  personal statement to the world — a reminder that women can be
+                  personal statement to the world. A reminder that women can be
                   powerful and soft, ambitious and elegant, bold and beautifully
                   themselves.
                 </p>
@@ -134,8 +134,8 @@ export function About() {
                 >
                   As a mother and entrepreneur, Sara understands what it means
                   to carry both responsibility and dreams. Her mission through
-                  Kuni is not just to design — but to inspire women everywhere
-                  to stand tall, love themselves unapologetically, and embrace
+                  Kuni is not just to design, but to inspire women everywhere to
+                  stand tall, love themselves unapologetically, and embrace
                   their identity with confidence and grace.
                 </p>
               </div>
@@ -370,7 +370,7 @@ export function About() {
               isDarkMode ? "text-accent-500" : "text-primary-600"
             }`}
           >
-            — Kuni Couture Philosophy
+            - Kuni Couture Philosophy
           </cite>
         </div>
       </section>
