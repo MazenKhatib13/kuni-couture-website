@@ -38,13 +38,13 @@ export function Footer() {
                 KUNI COUTURE
               </span>
               <p
-                className={`mt-4 text-sm max-w-md ${
-                  isDarkMode ? "text-gray-300" : "text-gray-600"
+                className={`text-sm leading-relaxed max-w-md ${
+                  isDarkMode ? "text-gray-400" : "text-gray-600"
                 }`}
               >
-                Love yourself, unconditionally. Discover the 2022 collection
-                that celebrates strength, empowerment, and the beauty of
-                self-expression.
+                Love yourself, unconditionally. Discover the collection that
+                celebrates strength, empowerment, and the beauty of
+                self-expression through exquisite couture craftsmanship.
               </p>
             </div>
             <div className="flex space-x-6">

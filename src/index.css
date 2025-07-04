@@ -9,6 +9,152 @@ body {
   transition: background-color 0.2s ease;
 }
 
+/* Optimized CSS-only animations for collection items */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+  will-change: transform, opacity;
+}
+
+/* Staggered animation delays using CSS */
+.animate-fade-in-up:nth-child(1) { animation-delay: 0ms; }
+.animate-fade-in-up:nth-child(2) { animation-delay: 100ms; }
+.animate-fade-in-up:nth-child(3) { animation-delay: 200ms; }
+.animate-fade-in-up:nth-child(4) { animation-delay: 300ms; }
+.animate-fade-in-up:nth-child(5) { animation-delay: 400ms; }
+.animate-fade-in-up:nth-child(6) { animation-delay: 500ms; }
+
+/* Performance-optimized collection media */
+.collection-media {
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.collection-media:hover {
+  transform: scale(1.05);
+}
+
+/* Optimized image loading states */
+.image-loading {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  will-change: background-position;
+}
+
+.dark .image-loading {
+  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  background-size: 200% 100%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* High-performance grid layouts */
+.collection-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+@media (max-width: 768px) {
+  .collection-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1280px) {
+  .collection-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}
+
+@media (min-width: 1281px) {
+  .collection-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+}
+
+/* Optimized modal with hardware acceleration */
+.modal-overlay {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  will-change: opacity;
+}
+
+.modal-content {
+  max-height: 90vh;
+  max-width: 90vw;
+  will-change: transform;
+  transform: translateZ(0); /* Force hardware acceleration */
+}
+
+/* Collection card optimizations */
+.collection-card-hover {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, box-shadow;
+  transform: translateZ(0); /* Force hardware acceleration */
+}
+
+.collection-card-hover:hover {
+  transform: translateY(-8px) translateZ(0);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.dark .collection-card-hover:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+/* Performance hints for images */
+.collection-image {
+  content-visibility: auto;
+  contain: layout style paint;
+  will-change: transform;
+}
+
+/* Smooth scroll container */
+.scroll-container {
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+}
+
+/* Loading spinner optimization */
+.loading-spinner {
+  animation: spin 1s linear infinite;
+  will-change: transform;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* Home page specific styling - eliminate all white backgrounds */
 html:has([data-page="home"]) {
   background-color: transparent !important;
@@ -177,4 +323,50 @@ body.home-page {
     min-height: 44px;
     touch-action: manipulation;
   }
+}
+
+/* Performance optimizations for images */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimize-contrast;
+  content-visibility: auto;
+  contain: layout style paint;
+}
+
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+}
+
+/* Global performance optimizations */
+* {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  perspective: 1000;
+}
+
+/* Remove global transform for specific elements that don't need it */
+input, textarea, select, button, a, span, p, h1, h2, h3, h4, h5, h6 {
+  -webkit-transform: none;
+  transform: none;
+}
+
+/* Fix for aspect ratio containers */
+.aspect-ratio-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.aspect-ratio-container img,
+.aspect-ratio-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

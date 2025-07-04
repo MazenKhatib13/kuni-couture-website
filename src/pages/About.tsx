@@ -20,15 +20,14 @@ export function About() {
               isDarkMode ? "text-gray-300" : "text-gray-600"
             }`}
           >
-            Our story begins with a simple yet powerful belief: every woman
-            deserves to love herself, unconditionally. Through couture
-            craftsmanship and timeless design, we create pieces that celebrate
-            the unique beauty and strength within every woman.
+            More than fashion — it's a voice, a movement, and a lifestyle.
+            Rooted in the Arabic word "كوني" meaning "Be", Kuni empowers women
+            to embrace who they are — fully, fiercely, and fearlessly.
           </p>
         </div>
       </section>
 
-      {/* Brand Story */}
+      {/* About Kuni Section - Now First */}
       <section className="py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -38,7 +37,7 @@ export function About() {
                   isDarkMode ? "text-gray-100" : "text-gray-900"
                 }`}
               >
-                Our Story
+                About Kuni
               </h2>
               <div className="space-y-6">
                 <p
@@ -46,41 +45,99 @@ export function About() {
                     isDarkMode ? "text-gray-300" : "text-gray-600"
                   }`}
                 >
-                  Kuni Couture was born from a vision to create more than just
-                  beautiful gowns. We set out to craft experiences that
-                  transform how women see themselves – celebrating their
-                  strength, embracing their individuality, and honoring their
-                  journey.
+                  Kuni is more than fashion — it's a voice, a movement, and a
+                  lifestyle. Rooted in the Arabic word "كوني" meaning "Be", Kuni
+                  empowers women to embrace who they are — fully, fiercely, and
+                  fearlessly.
                 </p>
                 <p
                   className={`body-text ${
                     isDarkMode ? "text-gray-300" : "text-gray-600"
                   }`}
                 >
-                  Each piece in our collection is meticulously designed and
-                  handcrafted by skilled artisans who share our commitment to
-                  excellence. We believe that true luxury lies in the details –
-                  from the selection of the finest fabrics to the precision of
-                  every stitch.
+                  Our brand is a celebration of strength wrapped in elegance.
+                  Kuni speaks to every woman — the dreamer, the leader, the
+                  creator. Whether in silk, chiffon, or structured silhouettes,
+                  each couture piece is crafted to awaken the senses and tell a
+                  story of individuality.
                 </p>
                 <p
                   className={`body-text ${
                     isDarkMode ? "text-gray-300" : "text-gray-600"
                   }`}
                 >
-                  Our 2022 collection represents the culmination of years of
-                  dedication to our craft, featuring silhouettes that empower,
-                  colors that inspire, and details that captivate.
+                  From timeless evening wear to custom couture, Kuni blends
+                  modern aesthetics with meaningful design. Every detail
+                  reflects a message: Be bold. Be soft. Be you.
+                </p>
+                <p
+                  className={`body-text font-medium ${
+                    isDarkMode ? "text-accent-500" : "text-primary-600"
+                  }`}
+                >
+                  Kuni is not just what you wear — it's what you believe in.
                 </p>
               </div>
             </div>
-            <div
-              className={`aspect-[4/5] rounded-lg ${
-                isDarkMode ? "bg-gray-800" : "bg-gray-100"
-              }`}
-            >
-              <div className="w-full h-full flex items-center justify-center text-gray-400">
-                <span className="text-sm">Brand Story Image</span>
+            <div>
+              <div className="aspect-[4/5] rounded-lg overflow-hidden shadow-2xl flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
+                <img
+                  src="/images/Screenshot_2025-07-01_175111-removebg-preview.png"
+                  alt="Kuni Couture Logo"
+                  className="w-full h-full object-contain p-8"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* About Sara Section - Now Second */}
+      <section className={`py-24 ${isDarkMode ? "bg-gray-800" : "bg-gray-50"}`}>
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="order-2 lg:order-1">
+              <div className="aspect-[4/5] rounded-lg overflow-hidden shadow-2xl">
+                <img
+                  src="/images/WhatsApp Image 2025-07-03 at 6.17.40 AM (2).jpeg"
+                  alt="Sara Mousa, Founder of Kuni Couture"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+            <div className="order-1 lg:order-2">
+              <h2
+                className={`section-heading mb-6 ${
+                  isDarkMode ? "text-gray-100" : "text-gray-900"
+                }`}
+              >
+                About Sara
+              </h2>
+              <div className="space-y-6">
+                <p
+                  className={`body-text ${
+                    isDarkMode ? "text-gray-300" : "text-gray-600"
+                  }`}
+                >
+                  Founder and creative force behind Kuni, Sara Mousa is a woman
+                  driven by vision, passion, and purpose. With a background in
+                  architecture and luxury real estate, Sara's world has always
+                  revolved around beauty, structure, and meaning. Kuni is her
+                  personal statement to the world — a reminder that women can be
+                  powerful and soft, ambitious and elegant, bold and beautifully
+                  themselves.
+                </p>
+                <p
+                  className={`body-text ${
+                    isDarkMode ? "text-gray-300" : "text-gray-600"
+                  }`}
+                >
+                  As a mother and entrepreneur, Sara understands what it means
+                  to carry both responsibility and dreams. Her mission through
+                  Kuni is not just to design — but to inspire women everywhere
+                  to stand tall, love themselves unapologetically, and embrace
+                  their identity with confidence and grace.
+                </p>
               </div>
             </div>
           </div>
@@ -88,7 +145,7 @@ export function About() {
       </section>
 
       {/* Core Values */}
-      <section className={`py-24 ${isDarkMode ? "bg-gray-800" : "bg-gray-50"}`}>
+      <section className={`py-24 ${isDarkMode ? "bg-gray-900" : "bg-white"}`}>
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2
@@ -108,7 +165,7 @@ export function About() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
               <div
                 className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 ${
@@ -208,71 +265,6 @@ export function About() {
         </div>
       </section>
 
-      {/* Founder Bio */}
-      <section className="py-24">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div
-              className={`aspect-[4/5] rounded-lg ${
-                isDarkMode ? "bg-gray-800" : "bg-gray-100"
-              }`}
-            >
-              <div className="w-full h-full flex items-center justify-center text-gray-400">
-                <span className="text-sm">Founder Portrait</span>
-              </div>
-            </div>
-            <div>
-              <h2
-                className={`section-heading mb-6 ${
-                  isDarkMode ? "text-gray-100" : "text-gray-900"
-                }`}
-              >
-                Meet the Founder
-              </h2>
-              <div className="space-y-6">
-                <p
-                  className={`body-text ${
-                    isDarkMode ? "text-gray-300" : "text-gray-600"
-                  }`}
-                >
-                  <span
-                    className={`font-medium ${
-                      isDarkMode ? "text-gray-100" : "text-gray-900"
-                    }`}
-                  >
-                    Kuni's
-                  </span>{" "}
-                  journey began with a deep passion for fashion and an
-                  unwavering commitment to empowering women through design. With
-                  years of experience in couture craftsmanship, she founded Kuni
-                  Couture to create a space where artistry meets empowerment.
-                </p>
-                <p
-                  className={`body-text ${
-                    isDarkMode ? "text-gray-300" : "text-gray-600"
-                  }`}
-                >
-                  "I believe that the right gown can transform not just how you
-                  look, but how you feel. My mission is to create pieces that
-                  help women connect with their inner strength and celebrate
-                  their unique beauty."
-                </p>
-                <p
-                  className={`body-text ${
-                    isDarkMode ? "text-gray-300" : "text-gray-600"
-                  }`}
-                >
-                  Every design reflects her commitment to excellence and her
-                  understanding that true luxury is about more than just
-                  beautiful fabrics – it's about the confidence and joy that
-                  comes from wearing something truly special.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Craftsmanship */}
       <section className={`py-24 ${isDarkMode ? "bg-gray-800" : "bg-gray-50"}`}>
         <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center">
@@ -294,23 +286,7 @@ export function About() {
             skilled artisans.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div>
-              <div
-                className={`text-4xl font-bold mb-2 ${
-                  isDarkMode ? "text-accent-500" : "text-primary-600"
-                }`}
-              >
-                300+
-              </div>
-              <div
-                className={`text-sm ${
-                  isDarkMode ? "text-gray-300" : "text-gray-600"
-                }`}
-              >
-                Hours per gown
-              </div>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div
                 className={`text-4xl font-bold mb-2 ${
@@ -333,14 +309,30 @@ export function About() {
                   isDarkMode ? "text-accent-500" : "text-primary-600"
                 }`}
               >
-                12
+                48+
               </div>
               <div
                 className={`text-sm ${
                   isDarkMode ? "text-gray-300" : "text-gray-600"
                 }`}
               >
-                Signature pieces
+                Hours per Gown
+              </div>
+            </div>
+            <div>
+              <div
+                className={`text-4xl font-bold mb-2 ${
+                  isDarkMode ? "text-accent-500" : "text-primary-600"
+                }`}
+              >
+                Premium
+              </div>
+              <div
+                className={`text-sm ${
+                  isDarkMode ? "text-gray-300" : "text-gray-600"
+                }`}
+              >
+                Materials
               </div>
             </div>
             <div>
@@ -360,6 +352,26 @@ export function About() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Brand Philosophy */}
+      <section className={`py-24 ${isDarkMode ? "bg-gray-900" : "bg-white"}`}>
+        <div className="mx-auto max-w-4xl px-6 lg:px-8 text-center">
+          <blockquote
+            className={`text-2xl md:text-3xl font-light italic mb-8 ${
+              isDarkMode ? "text-gray-300" : "text-gray-600"
+            }`}
+          >
+            "Be bold. Be soft. Be you."
+          </blockquote>
+          <cite
+            className={`block text-sm uppercase tracking-wide ${
+              isDarkMode ? "text-accent-500" : "text-primary-600"
+            }`}
+          >
+            — Kuni Couture Philosophy
+          </cite>
         </div>
       </section>
     </div>

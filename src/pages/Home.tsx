@@ -2,6 +2,80 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { useDarkMode } from "../contexts/DarkModeContext";
+import { CollectionCard } from "../components/CollectionCard";
+
+// Featured collection items for homepage
+const featuredCollectionItems = [
+  {
+    id: "adonis",
+    title: "ADONIS",
+    description:
+      "Gown is strewn with crystals and sequins that reflect like shards of glass. Draped from cascading swathes of stretch-satin and tulle, it's subtly pleated at the hem and floor-sweeping sleeves.",
+    media: [
+      {
+        type: "image" as const,
+        src: "/images/Collection pics/Adonis/6C6A2559.jpg",
+        alt: "Adonis Collection - Look 1",
+      },
+      {
+        type: "image" as const,
+        src: "/images/Collection pics/Adonis/6C6A2526.jpg",
+        alt: "Adonis Collection - Look 2",
+      },
+      {
+        type: "image" as const,
+        src: "/images/Collection pics/Adonis/6C6A2522.jpg",
+        alt: "Adonis Collection - Look 3",
+      },
+    ],
+  },
+  {
+    id: "red-rose",
+    title: "RED ROSE",
+    description:
+      "Gown is saturated with beads, so it has a head-turning shimmer from every angle. Cascading from the shoulder to an elegant floor-sweeping finish, with dramatic tulle sleeves detailed with cascading beading and sequins.",
+    media: [
+      {
+        type: "image" as const,
+        src: "/images/Collection pics/Red rose/6C6A3578.jpg",
+        alt: "Red Rose Collection - Look 1",
+      },
+      {
+        type: "image" as const,
+        src: "/images/Collection pics/Red rose/6C6A3563.jpg",
+        alt: "Red Rose Collection - Look 2",
+      },
+      {
+        type: "image" as const,
+        src: "/images/Collection pics/Red rose/6C6A3516.jpg",
+        alt: "Red Rose Collection - Look 3",
+      },
+    ],
+  },
+  {
+    id: "golden-star",
+    title: "GOLDEN STAR",
+    description:
+      "Radiate glamour and sophistication when you don this gown for special occasions. It is covered in sequins and beads for a spectacularly shimmering effect and styled with a V-neck, fitted waistband and floor-A-line skirt to create a classic feminine silhouette.",
+    media: [
+      {
+        type: "image" as const,
+        src: "/images/Collection pics/Golden star/6C6A2889.jpg",
+        alt: "Golden Star Collection - Look 1",
+      },
+      {
+        type: "image" as const,
+        src: "/images/Collection pics/Golden star/6C6A2816.jpg",
+        alt: "Golden Star Collection - Look 2",
+      },
+      {
+        type: "image" as const,
+        src: "/images/Collection pics/Golden star/6C6A2797.jpg",
+        alt: "Golden Star Collection - Look 3",
+      },
+    ],
+  },
+];
 
 export function Home() {
   const [videoLoaded, setVideoLoaded] = useState(false);
@@ -180,7 +254,7 @@ export function Home() {
       {/* Video Hero Section */}
       <section
         ref={sectionRef}
-        className="relative min-h-screen flex items-center justify-center overflow-hidden"
+        className="relative min-h-[115vh] flex items-center justify-center overflow-hidden"
         style={{
           marginTop: "-156px",
           marginBottom: "-90px",
@@ -191,9 +265,9 @@ export function Home() {
         <div
           className="absolute inset-0 z-0"
           style={{
-            top: "-200px",
-            bottom: "-100px",
-            height: "calc(100% + 300px)",
+            top: "-240px",
+            bottom: "-10px",
+            height: "calc(100% + 400px)",
           }}
         >
           {(isInView || videoInitialized) && (
@@ -263,9 +337,9 @@ export function Home() {
         <div
           className="absolute inset-0 bg-black/40 z-10"
           style={{
-            top: "-200px",
-            bottom: "-100px",
-            height: "calc(100% + 300px)",
+            top: "-240px",
+            bottom: "-10px",
+            height: "calc(100% + 400px)",
           }}
         ></div>
 
@@ -342,39 +416,20 @@ export function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Placeholder for featured items */}
-            {[1, 2, 3].map((item) => (
-              <div key={item} className="group cursor-pointer">
-                <div
-                  className={`aspect-[3/4] rounded-lg overflow-hidden mb-4 group-hover:opacity-90 transition-opacity ${
-                    isDarkMode ? "bg-gray-800" : "bg-gray-100"
-                  }`}
-                >
-                  <div className="w-full h-full flex items-center justify-center">
-                    <span
-                      className={`text-sm ${
-                        isDarkMode ? "text-gray-400" : "text-gray-400"
-                      }`}
-                    >
-                      Featured Gown {item}
-                    </span>
-                  </div>
-                </div>
-                <h3
-                  className={`font-malayalam font-medium text-lg mb-2 ${
-                    isDarkMode ? "text-gray-100" : "text-gray-900"
-                  }`}
-                >
-                  Signature Piece {item}
-                </h3>
-                <p
-                  className={`text-sm mb-4 ${
-                    isDarkMode ? "text-gray-300" : "text-gray-600"
-                  }`}
-                >
-                  Elegant couture gown crafted with the finest materials and
-                  attention to detail.
-                </p>
+            {featuredCollectionItems.map((collection, index) => (
+              <div
+                key={collection.id}
+                className="animate-fade-in-up opacity-0"
+                style={{
+                  animationDelay: `${index * 150}ms`,
+                }}
+              >
+                <CollectionCard
+                  id={collection.id}
+                  title={collection.title}
+                  description={collection.description}
+                  media={collection.media}
+                />
               </div>
             ))}
           </div>
