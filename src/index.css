@@ -349,6 +349,12 @@ html {
   perspective: 1000;
 }
 
+/* Exclude body and html from global transforms to prevent modal positioning issues */
+html, body {
+  -webkit-transform: none !important;
+  transform: none !important;
+}
+
 /* Remove global transform for specific elements that don't need it */
 input, textarea, select, button, a, span, p, h1, h2, h3, h4, h5, h6 {
   -webkit-transform: none;

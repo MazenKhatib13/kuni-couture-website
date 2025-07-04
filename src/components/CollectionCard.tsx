@@ -343,7 +343,7 @@ export const CollectionCard: React.FC<CollectionCardProps> = ({
   // Modal component to be rendered via portal
   const modalContent = (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 modal-overlay"
+      className="fixed inset-0 z-100 flex items-center justify-center bg-black/90 p-4 modal-overlay"
       onClick={handleModalClick}
     >
       <div
